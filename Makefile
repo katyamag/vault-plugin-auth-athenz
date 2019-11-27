@@ -38,6 +38,9 @@ fmt:
 test: mod fmt
 	go test --race -v ./...
 
+static_analysis:
+	gosec -quiet -tests ./...
+
 darwin:
 	@echo "Building darwin client..."
 	GOOS=darwin go build -ldflags "-X main.VERSION=$(PKG_VERSION) -X main.BUILD_DATE=$(PKG_DATE)" -o target/darwin/$(BINARY) $(SRC)

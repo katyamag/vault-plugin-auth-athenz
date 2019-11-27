@@ -15,7 +15,6 @@ const (
 	backendHelp = `
 The "athenz" credential provider allows authentication using Athenz.
 `
-	defaultConfigPath = "/etc/vault/plugin/athenz_plugin.yaml"
 )
 
 var confPath = ""

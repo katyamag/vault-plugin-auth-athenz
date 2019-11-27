@@ -5,22 +5,21 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
-- [How to use](#how-to-use)
-  - [Install plugin](#install-plugin)
-  - [Prepare vault server(minimun settings)](#prepare-vault-serverminimun-settings)
-  - [Register the plugin to Vault](#register-the-plugin-to-vault)
-  - [Enable the plugin](#enable-the-plugin)
-  - [Check plugins](#check-plugins)
-  - [Prepare athenz roletoken](#prepare-athenz-roletoken)
-  - [Configuration](#configuration)
-  - [Disable and Delete plugin](#disable-and-delete-plugin)
-- [Athenz Auth Method (API)](#athenz-auth-method-api)
-  - [Create Athenz Role Entry for Vault](#create-athenz-role-entry-for-vault)
-  - [Login with Athenz Method](#login-with-athenz-method)
-  - [Read Athenz Role Entry](#read-athenz-role-entry)
-  - [List Athenz Role Entry](#list-athenz-role-entry)
-- [TODO](#todo)
+  - [Overview](#overview)
+    - [Install plugin](#install-plugin)
+    - [Prepare vault server(minimun settings)](#prepare-vault-serverminimun-settings)
+    - [Register the plugin to Vault](#register-the-plugin-to-vault)
+- [Enable plugin](#enable-plugin)
+    - [Check plugins](#check-plugins)
+    - [Configuration](#configuration)
+    - [Disable and Delete plugin](#disable-and-delete-plugin)
+  - [Athenz Auth Method (API)](#athenz-auth-method-api)
+    - [Create Athenz Role Entry for Vault](#create-athenz-role-entry-for-vault)
+    - [Create Client Entry for Vault](#create-client-entry-for-vault)
+    - [Read Client Entry](#read-client-entry)
+    - [List Clients Entry](#list-clients-entry)
+    - [Login with Athenz Method](#login-with-athenz-method)
+  - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -150,3 +149,57 @@ $ vault write auth/athenz/clients/hoge \
 roletoken=$ROLE_TOKEN \
 ```
 
+### Create Client Entry for Vault
+
+| Method | Path                       | Produces         |
+|--------|----------------------------|------------------|
+| POST   | /auth/athenz/clients/:name | 204 (empty body) |
+
+__Parameters__
+
+---
+
+- `name`: `(string: <required>)` - The name of the vault role
+- `role`: `(string: <required>)` - The Athenz role name
+
+__Example__
+
+---
+
+```
+$ vault write auth/athenz/clients/hoge \
+role=test_role
+```
+
+### Read Client Entry
+
+| Method | Path                       | Produces         |
+|--------|----------------------------|------------------|
+| GET    | /auth/athenz/clients/:name | 204 (empty body) |
+
+__Parameters__
+
+---
+
+- `name`: `(string: <required>)` - The name of the vault role
+- `role`: `(string: <required>)` - The Athenz role name
+
+__Example__
+
+---
+
+```
+$ vault write auth/athenz/clients/hoge \
+role=test_role
+```
+
+### List Clients Entry
+
+### Login with Athenz Method
+
+
+## TODO
+ - [ ] build athenz server
+ - [ ] Update README
+ - [ ] implement help decription
+ - [ ] fuzzing
