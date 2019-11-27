@@ -30,10 +30,8 @@ jobs:
       run: |
         # curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s ${GOSEC_VERSION}
         # ./bin/gosec -quiet -tests ./...
-        cd $GOPATH/src/honnef.co/go/tools/cmd/staticcheck
-        git checkout 2019.2.2
-        go get
-        go install
+        go get honnef.co/go/tools/cmd/staticcheck
+        staticcheck ./...
 
     - name: test
       run: make test
