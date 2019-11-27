@@ -28,8 +28,8 @@ jobs:
       env:
         GOSEC_VERSION: v2.1.0
       run: |
-        curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s -- -b $GOPATH/bin ${GOSEC_VERSION}
-        make static_analysis
+        curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s ${GOSEC_VERSION}
+        ./bin/gosec -quiet -tests ./...
 
     - name: test
       run: make test
