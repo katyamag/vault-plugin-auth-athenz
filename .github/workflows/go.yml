@@ -29,7 +29,7 @@ jobs:
         GOSEC_VERSION: v2.1.0
       run: |
         curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s ${GOSEC_VERSION}
-        gosec --help
+        ./bin/gosec --help
 
     - name: test
       run: make test
