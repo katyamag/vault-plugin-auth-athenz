@@ -3,8 +3,12 @@ on: [push, pull_request]
 jobs:
 
   ci:
-    name: Build
+    name: Analysis
     runs-on: ubuntu-latest
+    container:
+      image: golang:1.12.4
+      env:
+        GOPATH: /__w/woodpecker/go/
     steps:
 
     - name: Set up Go 1.13
