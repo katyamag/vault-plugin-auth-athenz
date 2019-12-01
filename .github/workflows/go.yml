@@ -28,15 +28,15 @@ jobs:
       env:
         GOSEC_VERSION: v2.1.0
       run: |
-        export GOPATH=$HOME/go
-        export GOBIN=$(go env GOPATH)/bin
-        export PATH=$PATH:$GOPATH
-        export PATH=$PATH:$GOBIN
+        # export GOPATH=$HOME/go
+        # export GOBIN=$(go env GOPATH)/bin
+        # export PATH=$PATH:$GOPATH
+        # export PATH=$PATH:$GOBIN
         # curl -sfL https://raw.githubusercontent.com/securego/gosec/master/install.sh | sh -s ${GOSEC_VERSION}
         # ./bin/gosec -quiet -tests ./...
-        go get honnef.co/go/tools/cmd/staticcheck
-        ls -lat $GOPATH/go/bin
-        ./$GOPATH/bin/staticcheck ./...
+        export PATH=${PATH}:`go env GOPATH`/bin
+        go get -u honnef.co/go/tools/cmd/staticcheck
+        staticcheck ./...
 
     - name: test
       run: make test
