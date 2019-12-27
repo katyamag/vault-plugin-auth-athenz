@@ -92,21 +92,24 @@ func (v *Validator) Init(ctx context.Context) error {
 }
 
 // Start runs the policyd and confd in the background
-func (v *Validator) Start(ctx context.Context) {
+func (v *Validator) Start(ctx context.Context) <-chan error {
+	ech := make(chan error, 100)
+
 	errs := v.authorizerDaemon.Start(ctx)
 	go func() {
 		for {
 			select {
 			case <-ctx.Done():
-				log.Debug("halt daemon")
-				return
+				ech <- fmt.Errorf("stop daemon")
 			case err := <-errs:
 				if err != nil {
-					log.Error(errorWrap("daemon error", err.Error()))
+					ech <- fmt.Errorf("daemon error: %+v", err)
 				}
 			}
 		}
 	}()
+
+	return ech
 }
 
 // VerifyToken verifies the role token with athenz ppolicy

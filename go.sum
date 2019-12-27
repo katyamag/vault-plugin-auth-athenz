@@ -103,8 +103,6 @@ github.com/hashicorp/go-cleanhttp v0.5.1 h1:dH3aiDG9Jvb5r5+bYHsikaOUIpcM0xvgMXVo
 github.com/hashicorp/go-cleanhttp v0.5.1/go.mod h1:JpRdi6/HCYpAwUzNwuwqhbovhLtngrth3wmdIIUrZ80=
 github.com/hashicorp/go-hclog v0.0.0-20180709165350-ff2cf002a8dd/go.mod h1:9bjs9uLqI8l75knNv3lV1kA55veR+WUPSiKIWcQHudI=
 github.com/hashicorp/go-hclog v0.8.0/go.mod h1:5CU+agLiy3J7N7QjHK5d05KxGsuXiQLrjA0H7acj2lQ=
-github.com/hashicorp/go-hclog v0.10.0 h1:b86HUuA126IcSHyC55WjPo7KtCOVeTCKIjr+3lBhPxI=
-github.com/hashicorp/go-hclog v0.10.0/go.mod h1:whpDNt7SSdeAju8AWKIWsul05p54N/39EeqMAyrmvFQ=
 github.com/hashicorp/go-hclog v0.10.1 h1:uyt/l0dWjJ879yiAu+T7FG3/6QX+zwm4bQ8P7XsYt3o=
 github.com/hashicorp/go-hclog v0.10.1/go.mod h1:whpDNt7SSdeAju8AWKIWsul05p54N/39EeqMAyrmvFQ=
 github.com/hashicorp/go-immutable-radix v1.0.0 h1:AKDB1HM5PWEA7i4nhcpwOrO2byshxBjXVn/J/3+z5/0=
@@ -251,10 +249,6 @@ github.com/vmihailenco/msgpack v4.0.1+incompatible/go.mod h1:fy3FlTQTDXWkZ7Bh6Ac
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 github.com/yahoo/athenz v1.8.33/go.mod h1:bGC4PzHUQRC2byuyYqnKYofHCsGLPWSNoAWorW+juTc=
-github.com/yahoo/athenz v1.8.38 h1:dnD5JWBHz1yw9+9W7AjfNKgrEE/TiJRzFj8WFa+ZqXg=
-github.com/yahoo/athenz v1.8.38/go.mod h1:bGC4PzHUQRC2byuyYqnKYofHCsGLPWSNoAWorW+juTc=
-github.com/yahoo/athenz v1.8.41 h1:tthXz2uzyCQX0qej8eR5pDsQnBVwewdaP86giv4t9YM=
-github.com/yahoo/athenz v1.8.41/go.mod h1:zxWh0gZef6KGjH7+cHHWouyKmElR3jPx78or6S1Ep5Y=
 github.com/yahoo/athenz v1.8.42 h1:hPp9gVMCu2vLYJ2zbqcULzRvVV3b0vdqJHNNVPQJO9Q=
 github.com/yahoo/athenz v1.8.42/go.mod h1:zxWh0gZef6KGjH7+cHHWouyKmElR3jPx78or6S1Ep5Y=
 github.com/yahoojapan/athenz-authorizer/v2 v2.1.2 h1:jMUG5TMOpa3vfRg6Q4GxbRGXJZhEXIVovo7v4uakZb0=

@@ -3,15 +3,13 @@ package athenz
 import (
 	"context"
 	"crypto/x509"
-	"errors"
-	"time"
 )
 
 // MockAuthorizerd is a mock for Authorizerd
 type MockAuthorizerd struct {
 	initErr            error
 	verifyRoleTokenErr error
-	startErr           string
+	startErr           error
 }
 
 // Init is ...
@@ -21,16 +19,10 @@ func (m *MockAuthorizerd) Init(ctx context.Context) error {
 
 // Start is ...
 func (m *MockAuthorizerd) Start(ctx context.Context) <-chan error {
-	if m.startErr != "" {
-		ch := make(chan error, 1)
-		go func() {
-			time.Sleep(time.Millisecond * 20)
-			ch <- errors.New(m.startErr)
-		}()
-		return ch
-	}
+	ch := make(chan error, 1)
+	ch <- m.startErr
 
-	return nil
+	return ch
 }
 
 // VerifyRoleToken is ...

@@ -24,7 +24,9 @@ func (m *MockAthenz) Init(context.Context) error {
 }
 
 // Start is ...
-func (m *MockAthenz) Start(context.Context) {
+func (m *MockAthenz) Start(context.Context) <-chan error {
+	ech := make(chan error, 100)
+	return ech
 }
 
 // VerifyToken is ...

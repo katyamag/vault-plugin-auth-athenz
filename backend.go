@@ -73,7 +73,17 @@ func backend() (*athenzAuthBackend, error) {
 	}
 
 	// Start validator
-	athenz.GetValidator().Start(b.updaterCtx)
+	ech := athenz.GetValidator().Start(b.updaterCtx)
+	go func() {
+		for {
+			select {
+			case err := <-ech:
+				if err != nil {
+					log.Error(err.Error())
+				}
+			}
+		}
+	}()
 
 	b.Backend = &framework.Backend{
 		Help:        backendHelp,

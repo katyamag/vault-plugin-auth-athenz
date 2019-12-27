@@ -36,7 +36,7 @@ fmt:
 	gofmt -l .
 
 test: pkg fmt
-	go test --race -v ./...
+	go test -race -v ./...
 
 build: darwin linux
 

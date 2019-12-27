@@ -9,6 +9,6 @@ import (
 // Athenz is interface for athenz setting or daemon
 type Athenz interface {
 	Init(context.Context) error
-	Start(context.Context)
+	Start(context.Context) <-chan error
 	VerifyToken(context.Context, string, string) (*zts.RoleToken, error)
 }

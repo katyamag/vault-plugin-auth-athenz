@@ -3,6 +3,7 @@ package athenz
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/url"
 	"reflect"
 	"testing"
@@ -138,48 +139,55 @@ func Test_validator_Start(t *testing.T) {
 	type test struct {
 		name        string
 		expectedErr string
-		checkFunc   func() error
+		checkFunc   func(t *testing.T)
 	}
 
 	tests := []test{
 		func() test {
 			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			v := Validator{
 				authorizerDaemon: &MockAuthorizerd{},
 			}
 
 			return test{
-				name: "success",
-				checkFunc: func() error {
-					v.Start(ctx)
+				name: "stop daemon",
+				checkFunc: func(t *testing.T) {
+					ech := v.Start(ctx)
 
 					time.Sleep(time.Millisecond * 100)
 
-					cancel()
+					actual := <-ech
+					expected := fmt.Errorf("stop daemon")
 
-					return nil
+					if actual.Error() != expected.Error() {
+						t.Errorf("Start() actual = %v, expected = %v", actual, expected)
+					}
 				},
 			}
 		}(),
-		// TODO: check logs
 		func() test {
 			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			v := Validator{
 				authorizerDaemon: &MockAuthorizerd{
-					startErr: "error",
+					startErr: fmt.Errorf("error"),
 				},
 			}
 
 			return test{
-				name: "failure",
-				checkFunc: func() error {
-					v.Start(ctx)
+				name: "failed to Update daemon",
+				checkFunc: func(t *testing.T) {
+					ech := v.Start(ctx)
 
-					time.Sleep(time.Millisecond * 100)
+					time.Sleep(time.Millisecond * 50)
 
-					cancel()
+					actual := <-ech
+					expected := fmt.Errorf("daemon error: error")
 
-					return nil
+					if actual.Error() != expected.Error() {
+						t.Errorf("Start() actual = %v, expected = %v", actual, expected)
+					}
 				},
 			}
 		}(),
@@ -187,11 +195,7 @@ func Test_validator_Start(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			err := tt.checkFunc()
-			if err != nil {
-				t.Errorf("Start() actual = %v, expected = %v", err, tt.expectedErr)
-				return
-			}
+			tt.checkFunc(t)
 		})
 	}
 }
