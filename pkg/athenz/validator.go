@@ -8,7 +8,6 @@ import (
 	"regexp"
 
 	"github.com/katyamag/vault-plugin-auth-athenz/pkg/config"
-	"github.com/katyamag/vault-plugin-auth-athenz/pkg/logger"
 	"github.com/yahoo/athenz/clients/go/zts"
 	authorizerd "github.com/yahoojapan/athenz-authorizer/v2"
 )
@@ -17,7 +16,6 @@ const defaultHdr = "Yahoo-Principal-Auth"
 
 var (
 	validator        Athenz
-	log              = logger.GetLogger()
 	domainReg        = regexp.MustCompile(`^([a-zA-Z_][a-zA-Z0-9_-]*\.)*[a-zA-Z_][a-zA-Z0-9_-]*$`)
 	errInvalidDomain = errors.New("Invalid athenz domain")
 )
@@ -67,8 +65,6 @@ func NewValidator(pluginConfig config.Athenz) error {
 	if hdr == "" {
 		hdr = defaultHdr
 	}
-
-	log.Debug(url.String())
 
 	validator = &Validator{
 		domain:           pluginConfig.Domain,

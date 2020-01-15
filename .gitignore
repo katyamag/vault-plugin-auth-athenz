@@ -1,3 +1,4 @@
 /**/vault-plugin-auth-athenz
 /**/target
 *.envrc
+vendor/

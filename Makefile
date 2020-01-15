@@ -5,6 +5,7 @@
 
 GOPKGNAME = github.com/katyamag/vault-plugin-auth-athenz
 PKG_DATE=$(shell date '+%Y-%m-%dT%H:%M:%S')
+PKG_VERSION=$(shell git describe --tags `git rev-list --tags --max-count=1`)
 BINARY=vault-plugin-auth-athenz
 SRC=./cmd/vault-plugin-auth-athenz/main.go
 GOFMT_FILE?=$$(find . -name "*.go" | grep -v vendor)
