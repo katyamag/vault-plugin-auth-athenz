@@ -16,10 +16,11 @@ import (
 const defaultHdr = "Yahoo-Principal-Auth"
 
 var (
-	validator        Athenz
-	log              = logger.GetLogger()
-	domainReg        = regexp.MustCompile(`^([a-zA-Z_][a-zA-Z0-9_-]*\.)*[a-zA-Z_][a-zA-Z0-9_-]*$`)
-	errInvalidDomain = errors.New("Invalid athenz domain")
+	validator Athenz
+	log       = logger.GetLogger()
+	domainReg = regexp.MustCompile(`^([a-zA-Z_][a-zA-Z0-9_-]*\.)*[a-zA-Z_][a-zA-Z0-9_-]*$`)
+
+	errInvalidDomain = errors.New("invalid athenz domain")
 )
 
 // Validator updates the policy and public key in the background

@@ -10,11 +10,9 @@ import (
 	"github.com/hashicorp/vault/sdk/framework"
 	"github.com/hashicorp/vault/sdk/helper/tokenutil"
 	"github.com/hashicorp/vault/sdk/logical"
-	"github.com/katyamag/vault-plugin-auth-athenz/pkg/logger"
 )
 
 var (
-	log       = logger.GetLogger()
 	roleRegxp = regexp.MustCompile(`^([a-zA-Z0-9_][a-zA-Z0-9_-]*)(\.[a-zA-Z0-9_][a-zA-Z0-9_-]*)*$`)
 )
 
@@ -93,7 +91,7 @@ func (b *athenzAuthBackend) pathClientWrite(ctx context.Context, req *logical.Re
 
 	// Parse role name
 	role := d.Get("role").(string)
-	if !roleRegxp.Copy().MatchString(role) {
+	if !roleRegxp.MatchString(role) {
 		return logical.ErrorResponse("invalid role name"), nil
 	}
 

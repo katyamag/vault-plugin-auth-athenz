@@ -28,7 +28,7 @@ func createLogger(errLevelFunc, outLevelFunc zap.LevelEnablerFunc) *zap.Logger {
 	consoleErrors := zapcore.Lock(os.Stderr)
 	consoleEncoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
 
-	logfile, _ := os.OpenFile("/tmp/test.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	logfile, _ := os.OpenFile("/tmp/test.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 
 	core := zapcore.NewTee(
 		zapcore.NewCore(consoleEncoder, consoleErrors, errLevelFunc),

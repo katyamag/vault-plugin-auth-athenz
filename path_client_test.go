@@ -20,7 +20,10 @@ func getBackend(t *testing.T) (logical.Backend, logical.Storage, func()) {
 	defaultLeaseTTLVal := time.Hour * 12
 	maxLeaseTTLVal := time.Hour * 24
 
-	tmpDir, configFilePath := createTestAthenzConfig([]byte(basicConfig))
+	tmpDir, configFilePath, err := createTestAthenzConfig([]byte(basicConfig))
+	if err != nil {
+		t.Fatalf("createTestAthenz: %s", err.Error())
+	}
 	removeFunc := func() {
 		err := os.RemoveAll(tmpDir)
 		if err != nil {

@@ -22,12 +22,14 @@ func TestNewConfig(t *testing.T) {
 	configPath := filepath.Join(tmpDir, "data.yaml")
 
 	tests := []struct {
+		name     string
 		data     string
 		path     string
 		expected *Config
 		err      error
 	}{
 		{
+			name: "success",
 			data: `---
 athenz:
   url: localhost:4443/zts/v1
@@ -53,10 +55,12 @@ athenz:
 			err: nil,
 		},
 		{
+			name: "fail when no such file",
 			path: "/no/exist/path/data.yaml",
 			err:  fmt.Errorf("open /no/exist/path/data.yaml: no such file or directory"),
 		},
 		{
+			name: "the file is not yaml",
 			data: "not yaml",
 			path: configPath,
 			err:  fmt.Errorf("yaml: unmarshal errors:\n  line 1: cannot unmarshal !!str `not yaml` into config.Config"),
@@ -64,13 +68,17 @@ athenz:
 	}
 
 	for _, test := range tests {
-		// Prepare for a test configuration file
-		ioutil.WriteFile(configPath, []byte(test.data), 0644)
+		t.Run(test.name, func(t *testing.T) {
+			// Prepare for a test configuration file
+			if err := ioutil.WriteFile(configPath, []byte(test.data), 0644); err != nil {
+				t.Fatalf("faield to write file: %s", err.Error())
+			}
 
-		conf, actualErr := NewConfig(test.path)
-		if actualErr != nil {
-			assert.Equal(t, test.err.Error(), actualErr.Error())
-		}
-		assert.Exactly(t, test.expected, conf)
+			conf, actualErr := NewConfig(test.path)
+			if actualErr != nil {
+				assert.Equal(t, test.err.Error(), actualErr.Error())
+			}
+			assert.Exactly(t, test.expected, conf)
+		})
 	}
 }

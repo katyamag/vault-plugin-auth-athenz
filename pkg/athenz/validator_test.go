@@ -58,7 +58,7 @@ func TestNewValidator(t *testing.T) {
 					Action:   "access",
 				},
 			},
-			expectedErr: "Invalid athenz domain",
+			expectedErr: "invalid athenz domain",
 		},
 		{
 			name: "failed to create pubkeyd when the pubkeyRefreshDuration is invalid",

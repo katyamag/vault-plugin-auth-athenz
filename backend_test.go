@@ -29,7 +29,7 @@ athenz:
 
 	invalidConfig = `---
 athenz:
-  invalid-config
+  invalid
   url: https://test.athenz.com/zts/v1
   pubkeyRefreshDuration: 2m
   policyRefreshDuration: 6h
@@ -46,18 +46,15 @@ athenz:
 `
 )
 
-func createTestAthenzConfig(data []byte) (string, string) {
+func createTestAthenzConfig(data []byte) (string, string, error) {
 	// Create directory to place configuration files
 	tmpDir, _ := ioutil.TempDir("", "test")
 	configFilePath := filepath.Join(tmpDir, "data.yaml")
 
-	// Prepare for a test configuration file
-	ioutil.WriteFile(configFilePath, data, 0644)
-
-	return tmpDir, configFilePath
+	return tmpDir, configFilePath, ioutil.WriteFile(configFilePath, data, 0644)
 }
 
-func TestFactory_CreateFailure(t *testing.T) {
+func TestFactory_Create(t *testing.T) {
 	defaultLeaseTTLVal := time.Hour * 12
 	maxLeaseTTLVal := time.Hour * 24
 
@@ -71,7 +68,6 @@ func TestFactory_CreateFailure(t *testing.T) {
 		{
 			name:         "without config path",
 			athenzConfig: []byte(basicConfig),
-			withoutPath:  true,
 			MockAthenz:   athenz.MockAthenz{},
 			expectedErr:  "athenz config path not set",
 		},
@@ -93,13 +89,16 @@ func TestFactory_CreateFailure(t *testing.T) {
 			name:         "failed to create validator instance because of invalid url",
 			athenzConfig: []byte(invalidAthenzParamConfig),
 			MockAthenz:   athenz.MockAthenz{},
-			expectedErr:  "Invalid athenz domain",
+			expectedErr:  "invalid athenz domain",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tmpDir, path := createTestAthenzConfig(tt.athenzConfig)
+			tmpDir, path, err := createTestAthenzConfig(tt.athenzConfig)
+			if err != nil {
+				t.Fatalf("createTestAthenz: %s", err.Error())
+			}
 			defer func() {
 				err := os.RemoveAll(tmpDir)
 				if err != nil {
@@ -110,13 +109,7 @@ func TestFactory_CreateFailure(t *testing.T) {
 
 			backendConfig := &logical.BackendConfig{
 				Config: map[string]string{
-					"--config-file": func() string {
-						if tt.withoutPath {
-							return ""
-						}
-
-						return path
-					}(),
+					"--config-file": path,
 				},
 				Logger: logging.NewVaultLogger(hlog.Trace),
 				System: &logical.StaticSystemView{
@@ -129,7 +122,6 @@ func TestFactory_CreateFailure(t *testing.T) {
 			_, actual := Factory(context.Background(), backendConfig)
 			if actual != nil && actual.Error() != tt.expectedErr {
 				t.Errorf("Factory() actual = %v, expected = %v", actual, tt.expectedErr)
-				return
 			}
 		})
 	}
