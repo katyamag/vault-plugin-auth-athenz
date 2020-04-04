@@ -36,7 +36,7 @@ func TestNewValidator(t *testing.T) {
 			name: "failed to url parse",
 			config: config.Athenz{
 				Domain:                "test.domain",
-				URL:                   "http://[fe80::1%en0]",
+				URL:                   `http://[fe80::1%en0]`,
 				PubkeyRefreshDuration: "2m",
 				PolicyRefreshDuration: "2m",
 				Policy: config.Policy{
@@ -44,7 +44,7 @@ func TestNewValidator(t *testing.T) {
 					Action:   "access",
 				},
 			},
-			expectedErr: `parse http://[fe80::1%en0]: invalid URL escape "%en"`,
+			expectedErr: `parse "http://[fe80::1%en0]": invalid URL escape "%en"`,
 		},
 		{
 			name: "invalid athenz domain",
@@ -161,7 +161,6 @@ func Test_validator_Start(t *testing.T) {
 				},
 			}
 		}(),
-		// TODO: check logs
 		func() test {
 			ctx, cancel := context.WithCancel(context.Background())
 			v := Validator{

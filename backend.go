@@ -37,7 +37,7 @@ func Factory(ctx context.Context, c *logical.BackendConfig) (logical.Backend, er
 		confPath = p
 	}
 	if confPath == "" {
-		return nil, errors.New("athenz config path not set")
+		return nil, errors.New("athenz config path is empty")
 	}
 
 	b, err := backend(confPath)
@@ -86,18 +86,9 @@ func backend(confPath string) (*athenzAuthBackend, error) {
 				pathListClients(&b),
 			},
 		),
-		Clean: b.cleanup,
 	}
 
 	b.l = &sync.RWMutex{}
 
 	return &b, nil
-}
-
-func (b *athenzAuthBackend) cleanup(_ context.Context) {
-	b.l.Lock()
-	if b.updaterCtxCancel != nil {
-		b.updaterCtxCancel()
-	}
-	b.l.Unlock()
 }

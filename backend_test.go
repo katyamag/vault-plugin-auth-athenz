@@ -91,6 +91,13 @@ func TestFactory_Create(t *testing.T) {
 			MockAthenz:   athenz.MockAthenz{},
 			expectedErr:  "invalid athenz domain",
 		},
+		{
+			name:         "fail when config path is empty",
+			athenzConfig: []byte(invalidAthenzParamConfig),
+			withoutPath:  true,
+			MockAthenz:   athenz.MockAthenz{},
+			expectedErr:  "athenz config path is empty",
+		},
 	}
 
 	for _, tt := range tests {
@@ -109,7 +116,12 @@ func TestFactory_Create(t *testing.T) {
 
 			backendConfig := &logical.BackendConfig{
 				Config: map[string]string{
-					"--config-file": path,
+					"--config-file": func() string {
+						if tt.withoutPath {
+							return ""
+						}
+						return path
+					}(),
 				},
 				Logger: logging.NewVaultLogger(hlog.Trace),
 				System: &logical.StaticSystemView{

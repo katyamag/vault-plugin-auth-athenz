@@ -5,5 +5,5 @@ athenz:
   hdr: Athenz-Principal-Auth
   domain: sample.domain
   policy:
-    resource: vault
+    resource: sample.domain:vault
     action: access
